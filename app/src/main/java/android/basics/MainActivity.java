@@ -1,14 +1,11 @@
 package android.basics;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
-
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
-import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
 import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity {
@@ -17,27 +14,38 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        Button drugiGumb = findViewById(R.id.drugiGumb);
+        Button prviGumb = findViewById(R.id.prviGumb);
+
+        drugiGumb.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                drugiGumbKliknut(v);
+            }
+        });
+
+        prviGumb.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                prviGumbKliknut(v);
+            }
+        });
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.action_bar_menu,menu);
-        return super.onCreateOptionsMenu(menu);
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        switch (item.getItemId()){
-            case R.id.toastMenu:
-                Toast.makeText(this,"Kliknuo si lijevi gumb",Toast.LENGTH_LONG).show();
-                break;
-            case R.id.launchMenu:
-                Toast.makeText(this,"Kliknuo si desni gumb",Toast.LENGTH_SHORT).show();
-                break;
-            default:
-                break;
-        }
+        inflater.inflate(R.menu.basic_click_handlers,menu);
         return true;
     }
+
+    private void prviGumbKliknut(View view){
+        Toast.makeText(this,"Prvi gumb kliknut!",Toast.LENGTH_SHORT).show();
+    }
+
+    private void drugiGumbKliknut(View view){
+        Toast.makeText(this,"Drugi gumb kliknut!",Toast.LENGTH_SHORT).show();
+    }
+
 }
