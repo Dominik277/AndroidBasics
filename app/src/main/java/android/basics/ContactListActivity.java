@@ -1,5 +1,6 @@
 package android.basics;
 
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
@@ -9,6 +10,7 @@ import android.widget.Toast;
 
 import java.util.ArrayList;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -34,6 +36,18 @@ public class ContactListActivity extends AppCompatActivity {
                 Toast.makeText(ContactListActivity.this,names.get(position),Toast.LENGTH_LONG).show();
             }
         });
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        if (requestCode == REQUEST_READ_CONTACTS){
+            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED){
+                loadContacts();
+            }else {
+                Toast.makeText(this,"Permission Denied,Not able to load contact",
+                        Toast.LENGTH_LONG).show();
+            }
+        }
     }
 
 }
