@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item
-        android:title="Menu Settings"
+        android:title="Menu Settings5"
         android:id="@+id/menuSettings"
         app:showAsAction="never"
         android:orderInCategory="100"/>
