@@ -4,7 +4,7 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 
-public class SimpleAlertDialog {
+public class SimpleAlertDialogActivity {
 
     public static void displayWithOK(Context context,String poruka){
             displayWithOK(context,poruka,"Alert Dialog Primjer");

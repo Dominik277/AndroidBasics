@@ -1,14 +1,11 @@
 package android.basics;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.app.Activity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.View;
 import android.widget.Button;
-import android.widget.Toast;
 
 public class BasicClickHandlersActivity extends Activity {
 
@@ -43,11 +40,11 @@ public class BasicClickHandlersActivity extends Activity {
     }
 
     private void prviGumbKliknut(View view){
-        SimpleAlertDialog.displayWithOK(this,"Lijevi gumb kliknut!");
+        SimpleAlertDialogActivity.displayWithOK(this,"Lijevi gumb kliknut!");
     }
 
     private void drugiGumbKliknut(View view){
-        SimpleAlertDialog.displayWithOK(this,"Desni gumb kliknut!","Desni gumb");
+        SimpleAlertDialogActivity.displayWithOK(this,"Desni gumb kliknut!","Desni gumb");
     }
 
 }
