@@ -13,9 +13,7 @@ import android.widget.BaseExpandableListAdapter;
 import android.widget.ExpandableListView;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
 
 public class DemoSelectorActivity extends Activity {
 
@@ -60,9 +58,9 @@ public class DemoSelectorActivity extends Activity {
     }
 
     private class ChaptersListAdapter extends BaseExpandableListAdapter {
-
         private String[] chapters = getResources().getStringArray(R.array.chapters);
         private String[][] exercises;
+
 
         public ChaptersListAdapter() {
             super();
@@ -79,6 +77,7 @@ public class DemoSelectorActivity extends Activity {
             AbsListView.LayoutParams lp = new AbsListView.LayoutParams(
                     ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT
             );
+
             TextView textView = new TextView(DemoSelectorActivity.this);
             textView.setLayoutParams(lp);
             textView.setTextSize(20);
