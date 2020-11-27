@@ -1,5 +1,6 @@
 package android.basics;
 
+import android.annotation.SuppressLint;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.Menu;
@@ -25,9 +26,10 @@ public class AsyncTaskPerformActivity extends AppCompatActivity {
     }
 
     public void doneCounting(){
-        Toast.makeText(this,"Done counting to 100000",Toast.LENGTH_LONG).show();
+        SimpleAlertDialogActivity.displayWithOK(this,"Zavrseno odbrojavanja");
     }
 
+    @SuppressLint("StaticFieldLeak")
     private class MyAsyncTask extends AsyncTask<Void,Void,Void>{
 
         @Override
