@@ -1,5 +1,7 @@
 package android.basics;
 
+import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.Gravity;
 import android.view.Menu;
@@ -10,10 +12,12 @@ import android.widget.AbsListView;
 import android.widget.BaseExpandableListAdapter;
 import android.widget.ExpandableListView;
 import android.widget.TextView;
+import android.widget.Toast;
+
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
-public class DemoSelectorActivity extends AppCompatActivity {
+public class DemoSelectorActivity extends Activity {
 
     ExpandableListView elvChapters;
     ChaptersListAdapter elaAdapter;
@@ -28,14 +32,31 @@ public class DemoSelectorActivity extends AppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.menu_demo_selector,menu);
+        inflater.inflate(R.menu.menu_demo_selector, menu);
         return true;
     }
 
-    private void setupChaptersListView(){
+    private void setupChaptersListView() {
         elvChapters = findViewById(R.id.expandableListView);
         elaAdapter = new ChaptersListAdapter();
         elvChapters.setAdapter(elaAdapter);
+        elvChapters.setOnChildClickListener(new ExpandableListView.OnChildClickListener() {
+            @Override
+            public boolean onChildClick(ExpandableListView parent, View v,
+                                        int groupPosition, int childPosition, long id) {
+
+                String excerciseTitle = (String) elaAdapter.getChild(groupPosition,childPosition);
+                Class<? extends Activity> excerciseClass = elaAdapter.getExcerciseClass(groupPosition,childPosition,id);
+                if (excerciseClass != null){
+                    Toast.makeText(DemoSelectorActivity.this,excerciseTitle,Toast.LENGTH_LONG).show();
+                    startActivity(new Intent(DemoSelectorActivity.this,excerciseClass));
+                }else {
+                    Toast.makeText(DemoSelectorActivity.this,"Excercise not available!",
+                            Toast.LENGTH_LONG).show();
+                }
+                return false;
+            }
+        });
     }
 
     private class ChaptersListAdapter extends BaseExpandableListAdapter {
@@ -54,15 +75,15 @@ public class DemoSelectorActivity extends AppCompatActivity {
         }
 
 
-        public TextView getGenericView(){
+        public TextView getGenericView() {
             AbsListView.LayoutParams lp = new AbsListView.LayoutParams(
-                    ViewGroup.LayoutParams.MATCH_PARENT,ViewGroup.LayoutParams.WRAP_CONTENT
+                    ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT
             );
             TextView textView = new TextView(DemoSelectorActivity.this);
             textView.setLayoutParams(lp);
             textView.setTextSize(20);
             textView.setGravity(Gravity.CENTER_VERTICAL | Gravity.LEFT);
-            textView.setPadding(60,20,20,20);
+            textView.setPadding(60, 20, 20, 20);
             return textView;
         }
 
@@ -118,7 +139,7 @@ public class DemoSelectorActivity extends AppCompatActivity {
             return true;
         }
 
-        public Class<? extends AppCompatActivity> getExcerciseClass(int groupPosition, int childPosition, long id) {
+        public Class<? extends Activity> getExcerciseClass(int groupPosition, int childPosition, long id) {
             String exerciseId = "chap" + (groupPosition + 1) + "ex" + (childPosition + 1);
             return ExerciseActivityMapper.getExerciseClass(exerciseId);
         }
