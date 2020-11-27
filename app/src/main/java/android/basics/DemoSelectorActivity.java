@@ -1,19 +1,42 @@
 package android.basics;
 
+import android.os.Bundle;
+import android.view.Gravity;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AbsListView;
 import android.widget.BaseExpandableListAdapter;
+import android.widget.ExpandableListView;
 import android.widget.TextView;
-
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 public class DemoSelectorActivity extends AppCompatActivity {
 
+    ExpandableListView elvChapters;
+    ChaptersListAdapter elaAdapter;
 
+    @Override
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_demo_selector);
+        setupChaptersListView();
+    }
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.menu_demo_selector,menu);
+        return true;
+    }
 
-
-
+    private void setupChaptersListView(){
+        elvChapters = findViewById(R.id.expandableListView);
+        elaAdapter = new ChaptersListAdapter();
+        elvChapters.setAdapter(elaAdapter);
+    }
 
     private class ChaptersListAdapter extends BaseExpandableListAdapter {
 
@@ -30,6 +53,18 @@ public class DemoSelectorActivity extends AppCompatActivity {
             }
         }
 
+
+        public TextView getGenericView(){
+            AbsListView.LayoutParams lp = new AbsListView.LayoutParams(
+                    ViewGroup.LayoutParams.MATCH_PARENT,ViewGroup.LayoutParams.WRAP_CONTENT
+            );
+            TextView textView = new TextView(DemoSelectorActivity.this);
+            textView.setLayoutParams(lp);
+            textView.setTextSize(20);
+            textView.setGravity(Gravity.CENTER_VERTICAL | Gravity.LEFT);
+            textView.setPadding(60,20,20,20);
+            return textView;
+        }
 
         @Override
         public int getGroupCount() {
