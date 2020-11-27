@@ -1,7 +1,6 @@
 package android.basics;
 
 import android.app.Activity;
-
 import java.util.HashMap;
 
 public class ExerciseActivityMapper {
@@ -13,15 +12,15 @@ public class ExerciseActivityMapper {
         defineExerciseMappings();
     }
 
-    public static Class<? extends Activity> getExerciseClass(String exerciseId){
-        return getSingleton().exerciseClassMap.get(exerciseId);
-    }
-
     private static ExerciseActivityMapper getSingleton(){
         if (singleton == null){
             singleton = new ExerciseActivityMapper();
         }
         return singleton;
+    }
+
+    public static Class<? extends Activity> getExerciseClass(String exerciseId){
+        return getSingleton().exerciseClassMap.get(exerciseId);
     }
 
     private void defineExerciseMappings() {
