@@ -13,6 +13,8 @@ import androidx.annotation.Nullable;
 
 public class ImplicitIntentsActivity extends Activity {
 
+    String urlAddress;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -36,7 +38,7 @@ public class ImplicitIntentsActivity extends Activity {
     }
 
     private Uri getUriToVisit() {
-        String urlAddress = ((TextView)findViewById(R.id.txtUrlAddress)).getText().toString();
+        urlAddress = ((TextView)findViewById(R.id.txtUrlAddress)).getText().toString();
         if (urlAddress != null){
             if (!urlAddress.startsWith("http://")){
                 urlAddress = "http://" + urlAddress;
