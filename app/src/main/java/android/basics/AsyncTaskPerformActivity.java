@@ -34,7 +34,7 @@ public class AsyncTaskPerformActivity extends AppCompatActivity {
 
         @Override
         protected Void doInBackground(Void... voids) {
-            for (long i=0; i<100000; i++){
+            for (long i=0; i<100; i++){
                 System.out.println(i);
             }
             return null;

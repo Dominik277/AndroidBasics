@@ -1,5 +1,6 @@
 package android.basics;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
@@ -25,10 +26,10 @@ public class GridViewDemoActivity extends Activity {
         populateGridViewImages();
     }
 
-    private void populateGridViewImages(){
+    private void populateGridViewImages() {
         gvImages = findViewById(R.id.gvImages);
-        String[] numbers = new String[]{"ad","ae","af","ag","ai","al"};
-        adapter = new GridImageAdapter(this, android.R.layout.simple_list_item_1,numbers);
+        String[] numbers = new String[]{"ad", "ae", "af", "ag", "ai", "al"};
+        adapter = new GridImageAdapter(this, android.R.layout.simple_list_item_1, numbers);
         gvImages.setAdapter(adapter);
     }
 
@@ -39,16 +40,17 @@ public class GridViewDemoActivity extends Activity {
         return true;
     }
 
-    class GridImageAdapter extends ArrayAdapter<String>{
+    class GridImageAdapter extends ArrayAdapter<String> {
 
-        public GridImageAdapter(@NonNull Context context, int textViewresourceId,String[] numbers) {
-            super(context, textViewresourceId,numbers);
+        public GridImageAdapter(@NonNull Context context, int textViewResourceId, String[] numbers) {
+            super(context, textViewResourceId, numbers);
         }
 
-        public View getView(int position, View convertView, ViewGroup parent){
+        @SuppressLint("UseCompatLoadingForDrawables")
+        public View getView(int position, View convertView, ViewGroup parent) {
             ImageView v = new ImageView(GridViewDemoActivity.this);
             int resId = getResources().getIdentifier(getItem(position)
-                    ,"drawable",getPackageName());
+                    , "drawable", getPackageName());
             v.setImageDrawable(getResources().getDrawable(resId));
             return v;
         }
