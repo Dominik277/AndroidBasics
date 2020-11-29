@@ -3,12 +3,16 @@ package android.basics;
 import android.app.Activity;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
+import android.view.textclassifier.TextLinks;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.util.ArrayList;
 
 import androidx.annotation.Nullable;
@@ -82,7 +86,26 @@ public class ProgressBarActivity extends Activity {
         }
 
         protected String loadUrlBody(String address){
-
+            OkHttpClient httpClient = new OkHttpClient();
+            Response response;
+            String responseString = null;
+            try {
+                response = httpClient.newCall(new TextLinks.Request.Builder().url(address).build()).execute();
+                int statusCode = response.code();
+                if (statusCode = HttpStatus.HTTP_OK){
+                    ByteArrayOutputStream out = new ByteArrayOutputStream();
+                    out.write(response.body().bytes);
+                    responseString = out.toString();
+                    out.close();
+                }else {
+                    response.body().byteStream().close();
+                    throw new IOException(response.message);
+                }
+            }catch (Exception e){
+                Log.e(ProgressBarActivity.class.getSimpleName(),
+                        "Error retrieving data from: " + address, e);
+            }
+            return responseString;
         }
 
     }
