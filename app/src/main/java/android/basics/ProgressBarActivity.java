@@ -7,6 +7,9 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import java.util.ArrayList;
 
 import androidx.annotation.Nullable;
 
@@ -14,6 +17,7 @@ public class ProgressBarActivity extends Activity {
 
     ProgressBar pb;
     TextView tvResult;
+    ArrayList<String> lines = new ArrayList<String>();
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -38,27 +42,48 @@ public class ProgressBarActivity extends Activity {
 
     public class DelayTask extends AsyncTask<Void,Integer,String>{
 
+        int count = 0;
+
         @Override
         protected void onPreExecute() {
-            super.onPreExecute();
+            pb.setVisibility(ProgressBar.VISIBLE);
         }
 
         @Override
-        protected String doInBackground(Void... voids) {
-            return null;
+        protected String doInBackground(Void... params) {
+            String res = loadUrlBody("https://google.com");
+            lines.add(res.split("\n")[0]);
+            publishProgress(25);
+
+            res = loadUrlBody("https://yahoo.com");
+            lines.add(res.split("\n")[0]);
+            publishProgress(50);
+
+            res = loadUrlBody("https://twitter.com");
+            lines.add(res.split("\n")[0]);
+            publishProgress(75);
+
+            res = loadUrlBody("https://facebook.com");
+            lines.add(res.split("\n")[0]);
+            publishProgress(100);
+            return "complete";
+
         }
 
         @Override
         protected void onProgressUpdate(Integer... values) {
-            super.onProgressUpdate(values);
+            pb.setProgress(values[0]);
         }
 
         @Override
         protected void onPostExecute(String s) {
-            super.onPostExecute(s);
+            Toast.makeText(ProgressBarActivity.this,"Completed!",Toast.LENGTH_LONG).show();
+            tvResult.setText(lines.toString());
         }
 
+        protected String loadUrlBody(String address){
 
+        }
 
     }
 
