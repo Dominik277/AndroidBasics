@@ -2,6 +2,7 @@ package android.basics;
 
 import android.app.Activity;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -16,6 +17,10 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.Response;
 
 public class ProgressBarActivity extends Activity {
 
@@ -36,15 +41,15 @@ public class ProgressBarActivity extends Activity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.menu_progress_bar,menu);
+        inflater.inflate(R.menu.menu_progress_bar, menu);
         return true;
     }
 
-    public void startFourUrlAsync(){
+    public void startFourUrlAsync() {
         new DelayTask().execute();
     }
 
-    public class DelayTask extends AsyncTask<Void,Integer,String>{
+    public class DelayTask extends AsyncTask<Void, Integer, String> {
 
         int count = 0;
 
@@ -81,27 +86,28 @@ public class ProgressBarActivity extends Activity {
 
         @Override
         protected void onPostExecute(String s) {
-            Toast.makeText(ProgressBarActivity.this,"Completed!",Toast.LENGTH_LONG).show();
+            Toast.makeText(ProgressBarActivity.this, "Completed!", Toast.LENGTH_LONG).show();
             tvResult.setText(lines.toString());
         }
 
-        protected String loadUrlBody(String address){
+        @RequiresApi(api = Build.VERSION_CODES.P)
+        protected String loadUrlBody(String address) {
             OkHttpClient httpClient = new OkHttpClient();
             Response response;
             String responseString = null;
             try {
-                response = httpClient.newCall(new TextLinks.Request.Builder().url(address).build()).execute();
+                response = httpClient.newCall(new Request.Builder().url(address).build()).execute();
                 int statusCode = response.code();
-                if (statusCode = HttpStatus.HTTP_OK){
+                if (statusCode = HttpStatus.HTTP_OK) {
                     ByteArrayOutputStream out = new ByteArrayOutputStream();
-                    out.write(response.body().bytes);
+                    out.write(response.body().bytes());
                     responseString = out.toString();
                     out.close();
-                }else {
+                } else {
                     response.body().byteStream().close();
-                    throw new IOException(response.message);
+                    throw new IOException(response.message());
                 }
-            }catch (Exception e){
+            } catch (Exception e) {
                 Log.e(ProgressBarActivity.class.getSimpleName(),
                         "Error retrieving data from: " + address, e);
             }
